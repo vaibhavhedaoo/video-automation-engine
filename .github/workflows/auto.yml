@@ -1,1 +1,28 @@
+name: Test Google Sheet Connection
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 3 * * *"   # Runs daily 9:00 AM IST
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run script
+      env:
+        GOOGLE_SHEET_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
+        SHEET_ID: ${{ secrets.SHEET_ID }}
+      run: python main.py
 
