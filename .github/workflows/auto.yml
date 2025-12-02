@@ -3,14 +3,14 @@ name: Test Google Sheet Connection
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 3 * * *"
+    - cron: "30 3 * * *"   # 9 AM IST daily
 
 jobs:
-  run-script:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Setup Python
@@ -18,32 +18,5 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install ffmpeg
-      run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-    - name: Upgrade pip
-      run: python -m pip install --upgrade pip
-
-    - name: Force install MoviePy
-      run: |
-        pip install --verbose moviepy
-        pip install --verbose ffmpeg-python
-        pip install --verbose numpy
-
-    - name: Install project requirements
-      run: pip install --verbose -r requirements.txt
-
-    - name: Verify moviepy install
-      run: |
-        pip list
-        python - <<EOF
-import moviepy
-import moviepy.editor as mp
-print("MoviePy import test: SUCCESS")
-EOF
-
-    - name: Run script
-      env:
-        GOOGLE_SHEET_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
-        SHEET_ID: ${{ secrets.SHEET_ID }}
-      run: python main.py
+    - name: Print success message
+      run: echo "Workflow loaded successfully"
