@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Debug run
+    - name: Run main script
       env:
         GOOGLE_SHEET_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
         SHEET_ID: ${{ secrets.SHEET_ID }}
@@ -34,8 +34,7 @@ jobs:
         python main.py
         echo "Main.py finished."
 
-    - name: Upload artifact
-      if: success() && exists('final.mp4')
+    - name: Upload rendered video
       uses: actions/upload-artifact@v3
       with:
         name: final-video
