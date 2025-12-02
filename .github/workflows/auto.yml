@@ -21,18 +21,14 @@ jobs:
     - name: Upgrade pip
       run: python -m pip install --upgrade pip
 
-    - name: Install dependencies
+    - name: Install requirements
       run: pip install -r requirements.txt
 
-    - name: Install moviepy explicitly
+    - name: Install MoviePy
       run: pip install moviepy
 
-    - name: Test import moviepy
-      run: python - << 'EOF'
-import moviepy
-import moviepy.editor as mp
-print("MoviePy Import: SUCCESS ✔")
-EOF
+    - name: Test MoviePy Import
+      run: python -c "import moviepy; import moviepy.editor; print('MoviePy import success')"
 
-    - name: Print done
-      run: echo "MoviePy test completed"
+    - name: Done
+      run: echo "Finished successfully"
