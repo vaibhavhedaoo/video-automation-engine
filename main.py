@@ -1,6 +1,7 @@
 from google_sheet import get_next_row
 from generate_voice import create_voice
 from create_video import create_video
+import os
 
 def run():
     row, index = get_next_row()
@@ -12,10 +13,9 @@ def run():
     voice_file = create_voice(row["script"])
 
     print("Creating video...")
-    bg_video = "assets/backgrounds/test.mp4"  # placeholder video path
-    output_file = create_video(bg_video, voice_file)
+    output_file = create_video("assets/backgrounds/test.mp4", voice_file, "final.mp4")
 
-    print("Video created:", output_file)
+    print("Video created successfully:", output_file)
 
 if __name__ == "__main__":
     run()
