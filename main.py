@@ -1,21 +1,35 @@
-from google_sheet import get_next_row
-from generate_voice import create_voice
-from create_video import create_video
-import os
+name: Automated Video Creation Test
 
-def run():
-    row, index = get_next_row()
-    if not row:
-        print("No pending rows found.")
-        return
+on:
+  workflow_dispatch:
 
-    print("Generating voice...")
-    voice_file = create_voice(row["script"])
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-    print("Creating video...")
-    output_file = create_video("assets/backgrounds/test.mp4", voice_file, "final.mp4")
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    print("Video created successfully:", output_file)
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
 
-if __name__ == "__main__":
-    run()
+    - name: Install FFmpeg
+      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run video generator
+      run: python main.py
+      env:
+        GOOGLE_SHEET_CREDENTIALS: ${{ secrets.GOOGLE_SHEET_CREDENTIALS }}
+        SHEET_ID: ${{ secrets.SHEET_ID }}
+
+    - name: Upload Rendered Video
+      uses: actions/upload-artifact@v3
+      with:
+        name: final-video
+        path: final.mp4
