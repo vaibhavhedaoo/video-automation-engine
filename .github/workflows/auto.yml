@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: List project files
+    - name: List project structure
       run: ls -R .
 
     - name: Setup Python
@@ -19,7 +19,7 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install ffmpeg
+    - name: Install FFmpeg
       run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
     - name: Install dependencies
@@ -34,12 +34,11 @@ jobs:
         python main.py
         echo "Main.py finished."
 
-    - name: Show directory contents
-          run: ls -R .
+    - name: List output files
+      run: ls -R .
 
     - name: Upload rendered video
       uses: actions/upload-artifact@v4
       with:
         name: final-video
         path: final.mp4
-
