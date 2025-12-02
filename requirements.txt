@@ -2,3 +2,4 @@ gspread
 oauth2client
 moviepy
 gTTS
+ffmpeg-python
