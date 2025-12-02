@@ -6,7 +6,6 @@ def create_video(video_path, audio_path, output_path="final.mp4"):
 
     duration = audio.duration
 
-    # background music
     music = AudioFileClip("assets/music/bg.mp3").volumex(0.15)
 
     with open("voice.txt", "r") as f:
@@ -25,12 +24,11 @@ def create_video(video_path, audio_path, output_path="final.mp4"):
             txt=line.strip(),
             fontsize=64,
             color="white",
-            method="caption",
-            size=(900, None)
+            method='label'  # <- Pillow backend
         ).set_position(("center", y_position)).set_duration(segment_duration).set_start(i * segment_duration)
         clips.append(subtitle)
 
-    final_audio = audio.volumex(1.0).audio_fadein(0.3).audio_fadeout(0.3).overlay(music)
+    final_audio = audio.overlay(music)
 
     final_video = CompositeVideoClip([video] + clips)
     final_video = final_video.set_audio(final_audio)
