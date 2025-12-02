@@ -2,7 +2,7 @@ from moviepy.editor import VideoFileClip, AudioFileClip, CompositeVideoClip, Ima
 from PIL import Image, ImageDraw, ImageFont
 
 def create_subtitle_clip(text, duration, start_time, video_width, video_height):
-    font = ImageFont.truetype("DejaVuSans-Bold.ttf", 60)
+    font = ImageFont.load_default()  # Built-in font, works everywhere
     img = Image.new("RGBA", (video_width, 200), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     w, h = draw.textsize(text, font=font)
@@ -24,15 +24,8 @@ def create_video(video_path, audio_path, output_path="final.mp4"):
     segment_duration = duration / max(len(lines), 1)
 
     clips = []
-
     for i, line in enumerate(lines):
         clips.append(create_subtitle_clip(line.strip(), segment_duration, i * segment_duration, video.w, video.h))
 
     final_audio = audio.overlay(music)
-
-    final_video = CompositeVideoClip([video] + clips)
-    final_video = final_video.set_audio(final_audio)
-    final_video = final_video.resize((1080, 1920))
-    final_video.write_videofile(output_path, fps=30, codec="libx264", audio_codec="aac")
-
-    return output_path
+    final_video = Com_
