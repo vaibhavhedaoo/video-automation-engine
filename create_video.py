@@ -1,10 +1,11 @@
-from moviepy.editor import *
-import os
+from moviepy.editor import VideoFileClip, AudioFileClip
 
-def create_video(bg_path, voice_path, output="final.mp4"):
-    audio = AudioFileClip(voice_path)
-    clip = VideoFileClip(bg_path).subclip(0, audio.duration)
-    clip = clip.resize((1080, 1920))
-    final = clip.set_audio(audio)
-    final.write_videofile(output, fps=30)
-    return output
+def create_video(video_path, audio_path, output_path="final.mp4"):
+    video = VideoFileClip(video_path)
+    audio = AudioFileClip(audio_path)
+
+    final = video.set_audio(audio)
+    final = final.resize((1080, 1920))
+
+    final.write_videofile(output_path, fps=30)
+    return output_path
