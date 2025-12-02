@@ -27,5 +27,12 @@ jobs:
     - name: Install moviepy explicitly
       run: pip install moviepy
 
-    - name: Print success
-      run: echo "MoviePy installation step completed"
+    - name: Test import moviepy
+      run: python - << 'EOF'
+import moviepy
+import moviepy.editor as mp
+print("MoviePy Import: SUCCESS ✔")
+EOF
+
+    - name: Print done
+      run: echo "MoviePy test completed"
