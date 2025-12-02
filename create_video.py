@@ -1,8 +1,6 @@
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeVideoClip, TextClip
-import math
 
 def create_video(video_path, audio_path, output_path="final.mp4"):
-
     video = VideoFileClip(video_path)
     audio = AudioFileClip(audio_path)
 
@@ -11,7 +9,6 @@ def create_video(video_path, audio_path, output_path="final.mp4"):
     # background music
     music = AudioFileClip("assets/music/bg.mp3").volumex(0.15)
 
-    # extract script text
     with open("voice.txt", "r") as f:
         script_text = f.read()
 
@@ -21,14 +18,15 @@ def create_video(video_path, audio_path, output_path="final.mp4"):
     num_lines = len(lines)
     segment_duration = duration / max(num_lines, 1)
 
-    y_position = video.h * 0.75  # subtitles lower area
+    y_position = video.h * 0.75
 
     for i, line in enumerate(lines):
         subtitle = TextClip(
-            line.strip(),
-            fontsize=56,
-            color='white',
-            font="Arial-Bold"
+            txt=line.strip(),
+            fontsize=64,
+            color="white",
+            method="caption",
+            size=(900, None)
         ).set_position(("center", y_position)).set_duration(segment_duration).set_start(i * segment_duration)
         clips.append(subtitle)
 
